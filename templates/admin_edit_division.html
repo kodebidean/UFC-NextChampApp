@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Division{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-8">Edit Division</h1>
+
+<form method="POST" class="space-y-4">
+    <div>
+        <label for="name" class="block mb-1">Division Name</label>
+        <input type="text" id="name" name="name" value="{{ division.name }}" required class="w-full px-3 py-2 border rounded-md">
+    </div>
+    <div>
+        <label for="champion" class="block mb-1">Champion</label>
+        <input type="text" id="champion" name="champion" value="{{ division.champion }}" required class="w-full px-3 py-2 border rounded-md">
+    </div>
+    <div>
+        <label for="top_contenders" class="block mb-1">Top Contenders (comma-separated)</label>
+        <input type="text" id="top_contenders" name="top_contenders" value="{{ division.top_contenders|join(', ') }}" required class="w-full px-3 py-2 border rounded-md">
+    </div>
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Update Division</button>
+</form>
+
+<a href="{{ url_for('admin_manage_divisions') }}" class="block mt-4 text-blue-600">Back to Manage Divisions</a>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Edit News Item{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-8">Edit News Item</h1>
+
+<form method="POST" class="space-y-4">
+    <div>
+        <label for="title" class="block mb-1">Title</label>
+        <input type="text" id="title" name="title" value="{{ news.title }}" required class="w-full px-3 py-2 border rounded-md">
+    </div>
+    <div>
+        <label for="content" class="block mb-1">Content</label>
+        <textarea id="content" name="content" required class="w-full px-3 py-2 border rounded-md" rows="4">{{ news.content }}</textarea>
+    </div>
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Update News Item</button>
+</form>
+
+<a href="{{ url_for('admin_manage_news') }}" class="block mt-4 text-blue-600">Back to Manage News</a>
+{% endblock %}
