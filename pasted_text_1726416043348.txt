@@ -1,0 +1,45 @@
+Develop a fully responsive and dynamic web application for UFC fans called "UFC NextChamp." This app will feature the following functionalities:
+
+1. General Overview:
+The app will provide comprehensive information on all UFC divisions (e.g., Heavyweight, Lightweight, Bantamweight, etc.), including rankings, fighter stats, and live updates.
+It will integrate social media content from dedicated UFC accounts on Facebook and Instagram, allowing users to comment, share their opinions, and interact with the posts directly on the app.
+Users will be able to register and log in to stay updated on the latest UFC news, comment on posts, and interact with other users.
+2. Core Features:
+User Registration and Authentication System:
+
+Provide a registration form for new users to create accounts.
+Enable secure login and logout functionality.
+Allow users to manage their profiles, view their saved preferences, and update personal information.
+Division Pages:
+
+Create individual pages for each UFC division (e.g., Featherweight, Welterweight, Middleweight, etc.).
+Each division page will display up-to-date rankings and fighter statistics, including wins, losses, fights, and recent performance.
+An expandable dropdown menu labeled “Divisions” should be in the site’s header, allowing users to navigate between divisions seamlessly.
+Social Media Integration:
+
+Fetch and display posts from a dedicated UFC-focused Facebook and Instagram account.
+Allow users to like, comment, and share posts within the app.
+The app will pull in new content in real-time and will display it on the news feed.
+News and Updates:
+
+A news section that will feature the latest UFC events, upcoming fights, fight announcements, and other UFC-related updates.
+Users can comment and engage with the articles.
+3. User Profile:
+A dedicated profile page for registered users to view and manage their account details.
+Display personal data such as username, email, and profile picture.
+Provide functionality to log out of the app.
+4. Navigation & UI:
+Header:
+
+A well-designed header with the UFC colors and branding that includes:
+Navigation links to all major sections: Home, Divisions, News, Profile.
+A dropdown menu for “Divisions” that expands when clicked, showing links to all UFC divisions.
+Footer:
+
+A footer containing information about the "UFC NextChamp" project, links to UFC-related social media accounts, and copyright information.
+5. Design Requirements:
+Use a sleek, modern design with fonts and color schemes inspired by the UFC brand (e.g., red, black, white, and gray).
+Ensure the layout is user-friendly, visually appealing, and fully responsive on both desktop and mobile devices.
+6. Additional Features:
+Implement live updates for fighter rankings and statistics using data APIs, ensuring all information is current.
+Include notifications for users on upcoming fights and significant UFC announcements.
