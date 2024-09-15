@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}UFC News{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-8">UFC News</h1>
+<div class="space-y-8">
+    {% for news_item in news_items %}
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-semibold mb-2">{{ news_item.title }}</h2>
+        <p class="text-gray-600 mb-4">{{ news_item.date.strftime('%B %d, %Y') }}</p>
+        <p class="mb-4">{{ news_item.content }}</p>
+        <div class="mt-4">
+            <h3 class="text-xl font-semibold mb-2">Comments</h3>
+            <div class="space-y-2 mb-4" id="comments-{{ news_item.id }}">
+                {% for comment in news_item.comments %}
+                <div class="bg-gray-100 p-2 rounded">
+                    <strong>{{ comment.username }}:</strong> {{ comment.comment }}
+                </div>
+                {% endfor %}
+            </div>
+            {% if current_user.is_authenticated %}
+            <form class="flex" onsubmit="addComment(event, '{{ news_item.id }}')">
+                <input type="text" class="flex-grow px-3 py-2 border rounded-l-md" placeholder="Add a comment..." required>
+                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-r-md hover:bg-red-700">Post</button>
+            </form>
+            {% else %}
+            <p class="text-gray-600">Please <a href="{{ url_for('login') }}" class="text-red-600">login</a> to comment.</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

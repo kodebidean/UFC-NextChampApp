@@ -1,0 +1,16 @@
+/* Custom styles can be added here */
+.alert {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 0.25rem;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}

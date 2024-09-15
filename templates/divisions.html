@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}UFC Divisions{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-8">UFC Divisions</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for division in divisions %}
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-semibold mb-4">{{ division.name }}</h2>
+        <h3 class="text-xl font-semibold mb-2">Champion</h3>
+        <p class="mb-4">{{ division.champion }}</p>
+        <h3 class="text-xl font-semibold mb-2">Top Contenders</h3>
+        <ol class="list-decimal list-inside">
+            {% for contender in division.top_contenders[:5] %}
+            <li>{{ contender }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
