@@ -163,5 +163,32 @@ def admin():
         return redirect(url_for('index'))
     return render_template('admin.html')
 
+@app.route('/upload_divisions', methods=['GET', 'POST'])
+@login_required
+def upload_divisions():
+    if not current_user.is_admin():
+        flash('You do not have permission to upload division data.', 'error')
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file part', 'error')
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            flash('No selected file', 'error')
+            return redirect(request.url)
+        if file and file.filename.endswith('.xlsx'):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            try:
+                df = pd.read_excel(os.path.join(app.config['UPLOAD_FOLDER'], filename), sheet_name=None)
+                save_updated_divisions(df)
+                flash('Division data uploaded and saved successfully.', 'success')
+            except Exception as e:
+                flash(f'Error processing the uploaded file: {str(e)}', 'error')
+            return redirect(url_for('admin'))
+    return render_template('upload_divisions.html')
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
