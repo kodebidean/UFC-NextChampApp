@@ -5,21 +5,15 @@
 {% block content %}
 <style>
     .division-table {
-        width: max-content;
-        min-width: 100%;
+        width: 100%;
         border-collapse: separate;
         border-spacing: 0;
         margin-bottom: 2rem;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        font-size: 12px;
+        font-size: 14px;
     }
     .division-table th,
     .division-table td {
-        min-width: 150px;
-        max-width: 200px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         padding: 0.75rem;
         text-align: left;
         border-bottom: 1px solid #e2e8f0;
@@ -28,22 +22,15 @@
         background-color: #2c5282;
         color: white;
         font-weight: bold;
+        position: sticky;
+        top: 0;
+        z-index: 10;
     }
     .division-table tr:nth-child(even) {
         background-color: #f8fafc;
     }
     .division-table tr:hover {
         background-color: #e2e8f0;
-    }
-    @media (max-width: 640px) {
-        .division-table {
-            font-size: 10px;
-        }
-        .division-table th,
-        .division-table td {
-            min-width: 100px;
-            padding: 0.25rem;
-        }
     }
     .editable-field {
         background-color: #f0f4f8;
@@ -53,55 +40,120 @@
         width: 100%;
         box-sizing: border-box;
     }
+    .table-container {
+        max-height: 600px;
+        overflow-y: auto;
+        margin-bottom: 2rem;
+    }
+    .filter-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    .filter-input {
+        width: 200px;
+        padding: 0.5rem;
+        border: 1px solid #cbd5e0;
+        border-radius: 0.25rem;
+    }
 </style>
 
 <h1 class="text-3xl font-bold mb-8">UFC Divisions</h1>
-<form method="POST">
-    {% for division, fighters in divisions.items() %}
-        <h2 class="text-2xl font-semibold mb-4">{{ division }}</h2>
-        <div class="overflow-x-auto" style="max-width: 100%;">
-            <table class="division-table">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Apodo</th>
-                        <th>Fecha de Nacimiento</th>
-                        <th>País 1</th>
-                        <th>País 2</th>
-                        <th>Arte Marcial 1</th>
-                        <th>Arte Marcial 2</th>
-                        <th>Arte Marcial 3</th>
-                        <th>Arte Marcial 4</th>
-                        <th>Fuerza</th>
-                        <th>Velocidad</th>
-                        <th>Resistencia</th>
-                        <th>Agilidad</th>
-                        <th>Flexibilidad</th>
-                        <th>Defensa</th>
-                        <th>Ataque</th>
-                        <th>Golpe de Poder</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for fighter in fighters %}
-                    <tr>
-                        {% for key, value in fighter.items() %}
-                            <td>
-                                {% if current_user.is_admin() %}
-                                    <input type="text" name="{{ division }}-{{ loop.index0 }}-{{ key }}" value="{{ value }}" class="editable-field">
-                                {% else %}
-                                    {{ value }}
-                                {% endif %}
-                            </td>
-                        {% endfor %}
-                    </tr>
+
+{% for division, fighters in divisions.items() %}
+    <h2 class="text-2xl font-semibold mb-4">{{ division }}</h2>
+    <div class="filter-container">
+        <input type="text" class="filter-input" placeholder="Filter by name" onkeyup="filterTable(this, '{{ division }}')">
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700" onclick="exportToCSV('{{ division }}')">Export to CSV</button>
+    </div>
+    <div class="table-container">
+        <table class="division-table" id="{{ division }}-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apodo</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>País 1</th>
+                    <th>País 2</th>
+                    <th>Arte Marcial 1</th>
+                    <th>Arte Marcial 2</th>
+                    <th>Arte Marcial 3</th>
+                    <th>Arte Marcial 4</th>
+                    <th>Fuerza</th>
+                    <th>Velocidad</th>
+                    <th>Resistencia</th>
+                    <th>Agilidad</th>
+                    <th>Flexibilidad</th>
+                    <th>Defensa</th>
+                    <th>Ataque</th>
+                    <th>Golpe de Poder</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fighter in fighters %}
+                <tr>
+                    {% for key, value in fighter.items() %}
+                        <td>
+                            {% if current_user.is_admin() %}
+                                <input type="text" name="{{ division }}-{{ loop.index0 }}-{{ key }}" value="{{ value }}" class="editable-field">
+                            {% else %}
+                                {{ value }}
+                            {% endif %}
+                        </td>
                     {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% endfor %}
-    {% if current_user.is_admin() %}
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 mb-8">Save Changes</button>
-    {% endif %}
-</form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endfor %}
+
+{% if current_user.is_admin() %}
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 mb-8">Save Changes</button>
+{% endif %}
+
+<script>
+function filterTable(input, division) {
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById(division + "-table");
+    var tr = table.getElementsByTagName("tr");
+
+    for (var i = 1; i < tr.length; i++) {
+        var td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            var txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+
+function exportToCSV(division) {
+    var table = document.getElementById(division + "-table");
+    var rows = table.querySelectorAll("tr");
+    var csv = [];
+    for (var i = 0; i < rows.length; i++) {
+        var row = [], cols = rows[i].querySelectorAll("td, th");
+        for (var j = 0; j < cols.length; j++) {
+            var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, "").replace(/(\s\s)/gm, " ");
+            data = data.replace(/"/g, '""');
+            row.push('"' + data + '"');
+        }
+        csv.push(row.join(","));
+    }
+    var csv_string = csv.join("\n");
+    var filename = division + "_fighters.csv";
+    var link = document.createElement("a");
+    link.style.display = "none";
+    link.setAttribute("target", "_blank");
+    link.setAttribute("href", "data:text/csv;charset=utf-8," + encodeURIComponent(csv_string));
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
 {% endblock %}
