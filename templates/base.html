@@ -21,6 +21,9 @@
                 </div>
                 <a href="{{ url_for('news') }}" class="mr-4">News</a>
                 {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin() %}
+                        <a href="{{ url_for('admin') }}" class="mr-4">Admin Panel</a>
+                    {% endif %}
                     <a href="{{ url_for('profile') }}" class="mr-4">Profile</a>
                     <a href="{{ url_for('logout') }}">Logout</a>
                 {% else %}

@@ -1,14 +1,14 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from config import Config
-from models import User
 import firebase_admin
 from firebase_admin import credentials, firestore
-from datetime import datetime
+from werkzeug.utils import secure_filename
+import pandas as pd
 
 app = Flask(__name__)
-app.config.from_object(Config)
+app.config.from_object('config.Config')
 
 # Initialize Firebase
 cred = credentials.Certificate('firebase_config.json')
@@ -18,14 +18,57 @@ db = firestore.client()
 # Initialize Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'login'  # type: ignore
+
+class User(UserMixin):
+    def __init__(self, id, email, username, role='user'):
+        self.id = id
+        self.email = email
+        self.username = username
+        self.role = role
+
+    def is_admin(self):
+        return self.role == 'admin'
+
+def get_divisions_data():
+    try:
+        df = pd.read_excel('0-UFCnextChamp-Sheet.xlsx', sheet_name=None)
+        divisions = {}
+        for sheet_name, sheet_data in df.items():
+            # Ensure all columns are present and in the correct order
+            columns = ['Nombre', 'Apodo', 'Born Date', 'Country 1', 'Country 2', 'Arte Marcial 1', 'Arte Marcial 2', 'Arte Marcial 3', 'Arte Marcial 4', 'Fuerza', 'Velocidad', 'Resistencia', 'Agilidad', 'Flexibilidad', 'Defensa', 'Ataque', 'Golpe de Poder']
+            sheet_data = sheet_data.reindex(columns=columns)
+            divisions[sheet_name] = sheet_data.fillna('').to_dict('records')
+        return divisions
+    except Exception as e:
+        print(f"Error reading Excel file: {e}")
+        return None
+
+def save_updated_divisions(updated_data):
+    try:
+        with pd.ExcelWriter('0-UFCnextChamp-Sheet.xlsx') as writer:
+            for division, fighters in updated_data.items():
+                df = pd.DataFrame(fighters)
+                # Ensure columns are in the correct order
+                columns = ['Nombre', 'Apodo', 'Born Date', 'Country 1', 'Country 2', 'Arte Marcial 1', 'Arte Marcial 2', 'Arte Marcial 3', 'Arte Marcial 4', 'Fuerza', 'Velocidad', 'Resistencia', 'Agilidad', 'Flexibilidad', 'Defensa', 'Ataque', 'Golpe de Poder']
+                df = df.reindex(columns=columns)
+                df.to_excel(writer, sheet_name=division, index=False)
+        print("Excel file updated successfully.")
+    except Exception as e:
+        print(f"Error updating Excel file: {e}")
 
 @login_manager.user_loader
 def load_user(user_id):
     user_doc = db.collection('users').document(user_id).get()
     if user_doc.exists:
         user_data = user_doc.to_dict()
-        return User(id=user_id, email=user_data['email'], username=user_data['username'], role=user_data['role'])
+        if user_data:
+            return User(
+                id=user_id,
+                email=user_data.get('email', ''),
+                username=user_data.get('username', ''),
+                role=user_data.get('role', 'user')
+            )
     return None
 
 @app.route('/')
@@ -36,12 +79,15 @@ def index():
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
-        password = request.form.get('password')
+        password = request.form.get('password') or ''
         user_doc = db.collection('users').where('email', '==', email).limit(1).get()
-        if user_doc:
+        if user_doc and len(user_doc) > 0:
             user_data = user_doc[0].to_dict()
-            if check_password_hash(user_data['password'], password):
-                user = User(id=user_doc[0].id, email=user_data['email'], username=user_data['username'], role=user_data['role'])
+            if user_data and check_password_hash(user_data.get('password', ''), password):
+                user = User(id=user_doc[0].id,
+                            email=user_data.get('email', ''),
+                            username=user_data.get('username', ''),
+                            role=user_data.get('role', 'user'))
                 login_user(user)
                 flash('Logged in successfully.', 'success')
                 return redirect(url_for('admin') if user.is_admin() else url_for('index'))
@@ -53,28 +99,20 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
-        password = request.form.get('password')
-        
-        # Check if the email already exists
+        password = request.form.get('password') or ''
         existing_user = db.collection('users').where('email', '==', email).limit(1).get()
         if existing_user:
             flash('Email already registered.', 'error')
             return redirect(url_for('register'))
-        
-        # Create a new user
         new_user = {
             'username': username,
             'email': email,
             'password': generate_password_hash(password),
             'role': 'admin' if email == 'kodigolekua@gmail.com' else 'user'
         }
-        
-        # Add the user to the database
         db.collection('users').add(new_user)
-        
         flash('Registration successful. Please log in.', 'success')
         return redirect(url_for('login'))
-    
     return render_template('register.html')
 
 @app.route('/logout')
@@ -89,10 +127,28 @@ def logout():
 def profile():
     return render_template('profile.html')
 
-@app.route('/divisions')
+@app.route('/divisions', methods=['GET', 'POST'])
+@login_required
 def divisions():
-    divisions = db.collection('divisions').order_by('name').get()
-    return render_template('divisions.html', divisions=divisions)
+    if request.method == 'POST' and current_user.is_admin():
+        updated_data = {}
+        for key, value in request.form.items():
+            division, index, field = key.split('-')
+            if division not in updated_data:
+                updated_data[division] = []
+            while len(updated_data[division]) <= int(index):
+                updated_data[division].append({})
+            updated_data[division][int(index)][field] = value
+        
+        save_updated_divisions(updated_data)
+        flash('Division data updated successfully.', 'success')
+        return redirect(url_for('divisions'))
+
+    divisions_data = get_divisions_data()
+    if divisions_data is None:
+        flash('Error fetching fighter data. Please try again later.', 'error')
+        return render_template('divisions.html', divisions={})
+    return render_template('divisions.html', divisions=divisions_data)
 
 @app.route('/news')
 def news():
@@ -105,172 +161,7 @@ def admin():
     if not current_user.is_admin():
         flash('You do not have permission to access the admin panel.', 'error')
         return redirect(url_for('index'))
-    
-    users = db.collection('users').get()
-    user_list = [User(id=user.id, email=user.to_dict()['email'], username=user.to_dict()['username'], role=user.to_dict()['role']) for user in users]
-    return render_template('admin.html', users=user_list)
-
-@app.route('/admin/edit_user/<string:user_id>', methods=['GET', 'POST'])
-@login_required
-def admin_edit_user(user_id):
-    if not current_user.is_admin():
-        flash('You do not have permission to edit users.', 'error')
-        return redirect(url_for('index'))
-    
-    user_doc = db.collection('users').document(user_id).get()
-    if not user_doc.exists:
-        flash('User not found.', 'error')
-        return redirect(url_for('admin'))
-    
-    user_data = user_doc.to_dict()
-    if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
-        role = request.form.get('role')
-        
-        db.collection('users').document(user_id).update({
-            'username': username,
-            'email': email,
-            'role': role
-        })
-        
-        flash('User updated successfully.', 'success')
-        return redirect(url_for('admin'))
-    
-    return render_template('edit_user.html', user=user_data)
-
-@app.route('/admin/delete_user/<string:user_id>')
-@login_required
-def admin_delete_user(user_id):
-    if not current_user.is_admin():
-        flash('You do not have permission to delete users.', 'error')
-        return redirect(url_for('index'))
-    
-    db.collection('users').document(user_id).delete()
-    flash('User deleted successfully.', 'success')
-    return redirect(url_for('admin'))
-
-@app.route('/admin/manage_news', methods=['GET', 'POST'])
-@login_required
-def admin_manage_news():
-    if not current_user.is_admin():
-        flash('You do not have permission to manage news.', 'error')
-        return redirect(url_for('index'))
-
-    if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
-        date = datetime.now()
-
-        new_news = {
-            'title': title,
-            'content': content,
-            'date': date
-        }
-        db.collection('news').add(new_news)
-        flash('News item added successfully.', 'success')
-        return redirect(url_for('admin_manage_news'))
-
-    news_items = db.collection('news').order_by('date', direction=firestore.Query.DESCENDING).get()
-    return render_template('admin_manage_news.html', news_items=news_items)
-
-@app.route('/admin/edit_news/<string:news_id>', methods=['GET', 'POST'])
-@login_required
-def admin_edit_news(news_id):
-    if not current_user.is_admin():
-        flash('You do not have permission to edit news.', 'error')
-        return redirect(url_for('index'))
-
-    news_doc = db.collection('news').document(news_id).get()
-    if not news_doc.exists:
-        flash('News item not found.', 'error')
-        return redirect(url_for('admin_manage_news'))
-
-    if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
-
-        db.collection('news').document(news_id).update({
-            'title': title,
-            'content': content
-        })
-        flash('News item updated successfully.', 'success')
-        return redirect(url_for('admin_manage_news'))
-
-    return render_template('admin_edit_news.html', news=news_doc.to_dict())
-
-@app.route('/admin/delete_news/<string:news_id>')
-@login_required
-def admin_delete_news(news_id):
-    if not current_user.is_admin():
-        flash('You do not have permission to delete news.', 'error')
-        return redirect(url_for('index'))
-
-    db.collection('news').document(news_id).delete()
-    flash('News item deleted successfully.', 'success')
-    return redirect(url_for('admin_manage_news'))
-
-@app.route('/admin/manage_divisions', methods=['GET', 'POST'])
-@login_required
-def admin_manage_divisions():
-    if not current_user.is_admin():
-        flash('You do not have permission to manage divisions.', 'error')
-        return redirect(url_for('index'))
-
-    if request.method == 'POST':
-        name = request.form.get('name')
-        champion = request.form.get('champion')
-        top_contenders = request.form.get('top_contenders').split(',')
-
-        new_division = {
-            'name': name,
-            'champion': champion,
-            'top_contenders': top_contenders
-        }
-        db.collection('divisions').add(new_division)
-        flash('Division added successfully.', 'success')
-        return redirect(url_for('admin_manage_divisions'))
-
-    divisions = db.collection('divisions').order_by('name').get()
-    return render_template('admin_manage_divisions.html', divisions=divisions)
-
-@app.route('/admin/edit_division/<string:division_id>', methods=['GET', 'POST'])
-@login_required
-def admin_edit_division(division_id):
-    if not current_user.is_admin():
-        flash('You do not have permission to edit divisions.', 'error')
-        return redirect(url_for('index'))
-
-    division_doc = db.collection('divisions').document(division_id).get()
-    if not division_doc.exists:
-        flash('Division not found.', 'error')
-        return redirect(url_for('admin_manage_divisions'))
-
-    if request.method == 'POST':
-        name = request.form.get('name')
-        champion = request.form.get('champion')
-        top_contenders = request.form.get('top_contenders').split(',')
-
-        db.collection('divisions').document(division_id).update({
-            'name': name,
-            'champion': champion,
-            'top_contenders': top_contenders
-        })
-        flash('Division updated successfully.', 'success')
-        return redirect(url_for('admin_manage_divisions'))
-
-    return render_template('admin_edit_division.html', division=division_doc.to_dict())
-
-@app.route('/admin/delete_division/<string:division_id>')
-@login_required
-def admin_delete_division(division_id):
-    if not current_user.is_admin():
-        flash('You do not have permission to delete divisions.', 'error')
-        return redirect(url_for('index'))
-
-    db.collection('divisions').document(division_id).delete()
-    flash('Division deleted successfully.', 'success')
-    return redirect(url_for('admin_manage_divisions'))
+    return render_template('admin.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

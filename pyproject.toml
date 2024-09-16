@@ -11,6 +11,12 @@ flask = "^3.0.3"
 flask-login = "^0.6.3"
 firebase-admin = "^6.5.0"
 werkzeug = "^3.0.4"
+openpyxl = "^3.1.5"
+pandas = "^2.2.2"
+google-auth = "^2.34.0"
+google-auth-oauthlib = "^1.2.1"
+google-auth-httplib2 = "^0.2.0"
+google-api-python-client = "^2.145.0"
 
 
 [build-system]

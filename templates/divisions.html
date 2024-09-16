@@ -3,20 +3,105 @@
 {% block title %}UFC Divisions{% endblock %}
 
 {% block content %}
+<style>
+    .division-table {
+        width: max-content;
+        min-width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-size: 12px;
+    }
+    .division-table th,
+    .division-table td {
+        min-width: 150px;
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    .division-table th {
+        background-color: #2c5282;
+        color: white;
+        font-weight: bold;
+    }
+    .division-table tr:nth-child(even) {
+        background-color: #f8fafc;
+    }
+    .division-table tr:hover {
+        background-color: #e2e8f0;
+    }
+    @media (max-width: 640px) {
+        .division-table {
+            font-size: 10px;
+        }
+        .division-table th,
+        .division-table td {
+            min-width: 100px;
+            padding: 0.25rem;
+        }
+    }
+    .editable-field {
+        background-color: #f0f4f8;
+        border: 1px solid #cbd5e0;
+        border-radius: 0.25rem;
+        padding: 0.25rem 0.5rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+</style>
+
 <h1 class="text-3xl font-bold mb-8">UFC Divisions</h1>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-    {% for division in divisions %}
-    <div class="bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-2xl font-semibold mb-4">{{ division.name }}</h2>
-        <h3 class="text-xl font-semibold mb-2">Champion</h3>
-        <p class="mb-4">{{ division.champion }}</p>
-        <h3 class="text-xl font-semibold mb-2">Top Contenders</h3>
-        <ol class="list-decimal list-inside">
-            {% for contender in division.top_contenders[:5] %}
-            <li>{{ contender }}</li>
-            {% endfor %}
-        </ol>
-    </div>
+<form method="POST">
+    {% for division, fighters in divisions.items() %}
+        <h2 class="text-2xl font-semibold mb-4">{{ division }}</h2>
+        <div class="overflow-x-auto" style="max-width: 100%;">
+            <table class="division-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apodo</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>País 1</th>
+                        <th>País 2</th>
+                        <th>Arte Marcial 1</th>
+                        <th>Arte Marcial 2</th>
+                        <th>Arte Marcial 3</th>
+                        <th>Arte Marcial 4</th>
+                        <th>Fuerza</th>
+                        <th>Velocidad</th>
+                        <th>Resistencia</th>
+                        <th>Agilidad</th>
+                        <th>Flexibilidad</th>
+                        <th>Defensa</th>
+                        <th>Ataque</th>
+                        <th>Golpe de Poder</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fighter in fighters %}
+                    <tr>
+                        {% for key, value in fighter.items() %}
+                            <td>
+                                {% if current_user.is_admin() %}
+                                    <input type="text" name="{{ division }}-{{ loop.index0 }}-{{ key }}" value="{{ value }}" class="editable-field">
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% endfor %}
-</div>
+    {% if current_user.is_admin() %}
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 mb-8">Save Changes</button>
+    {% endif %}
+</form>
 {% endblock %}

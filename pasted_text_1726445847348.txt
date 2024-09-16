@@ -1,0 +1,80 @@
+Fetching data for sheet: Flyweight
+An error occurred while fetching data for sheet 'Flyweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Flyweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Bantamweight
+An error occurred while fetching data for sheet 'Bantamweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Bantamweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Featherweight
+An error occurred while fetching data for sheet 'Featherweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Featherweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Lightweight
+An error occurred while fetching data for sheet 'Lightweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Lightweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Welterweight
+An error occurred while fetching data for sheet 'Welterweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Welterweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Middleweight
+An error occurred while fetching data for sheet 'Middleweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Middleweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Light Heavyweight
+An error occurred while fetching data for sheet 'Light Heavyweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Light%20Heavyweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Heavyweight
+An error occurred while fetching data for sheet 'Heavyweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Heavyweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+172.31.196.187 - - [16/Sep/2024 00:13:46] "GET /divisions HTTP/1.1" 200 -
+Fetching data for sheet: Flyweight
+An error occurred while fetching data for sheet 'Flyweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Flyweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Bantamweight
+An error occurred while fetching data for sheet 'Bantamweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Bantamweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Featherweight
+An error occurred while fetching data for sheet 'Featherweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Featherweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Lightweight
+An error occurred while fetching data for sheet 'Lightweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Lightweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Welterweight
+An error occurred while fetching data for sheet 'Welterweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Welterweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Middleweight
+An error occurred while fetching data for sheet 'Middleweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Middleweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Light Heavyweight
+An error occurred while fetching data for sheet 'Light Heavyweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Light%20Heavyweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Heavyweight
+An error occurred while fetching data for sheet 'Heavyweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Heavyweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+172.31.196.187 - - [16/Sep/2024 00:13:59] "GET /divisions HTTP/1.1" 200 -
+172.31.196.187 - - [16/Sep/2024 00:13:59] "GET /static/css/main.css HTTP/1.1" 200 -
+172.31.196.187 - - [16/Sep/2024 00:13:59] "GET /static/js/auth.js HTTP/1.1" 200 -
+172.31.196.187 - - [16/Sep/2024 00:13:59] "GET /static/js/social.js HTTP/1.1" 200 -
+172.31.196.187 - - [16/Sep/2024 00:13:59] "GET /static/js/news.js HTTP/1.1" 200 -
+172.31.196.187 - - [16/Sep/2024 00:13:59] "GET /static/js/divisions.js HTTP/1.1" 200 -
+Fetching data for sheet: Flyweight
+An error occurred while fetching data for sheet 'Flyweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Flyweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Bantamweight
+An error occurred while fetching data for sheet 'Bantamweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Bantamweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Featherweight
+An error occurred while fetching data for sheet 'Featherweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Featherweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Lightweight
+An error occurred while fetching data for sheet 'Lightweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Lightweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Welterweight
+An error occurred while fetching data for sheet 'Welterweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Welterweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Middleweight
+An error occurred while fetching data for sheet 'Middleweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Middleweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Light Heavyweight
+An error occurred while fetching data for sheet 'Light Heavyweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Light%20Heavyweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+Fetching data for sheet: Heavyweight
+An error occurred while fetching data for sheet 'Heavyweight': <HttpError 404 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-Xjb-OFvx-VsWfpGlGKfLLZARkgH9Gx0jWNJfxhT8Vk/values/Heavyweight%21A2%3AQ?alt=json returned "Requested entity was not found.". Details: "Requested entity was not found.">
+Error details: Requested entity was not found.
+172.31.196.187 - - [16/Sep/2024 00:14:00] "GET /divisions HTTP/1.1" 200 -

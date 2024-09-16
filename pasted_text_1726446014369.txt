@@ -1,0 +1,47 @@
+NameError
+NameError: name 'User' is not defined
+
+Traceback (most recent call last)
+File "/home/runner/UFCFighterHub/.pythonlibs/lib/python3.11/site-packages/flask/app.py", line 1498, in __call__
+return self.wsgi_app(environ, start_response)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/UFCFighterHub/.pythonlibs/lib/python3.11/site-packages/flask/app.py", line 1476, in wsgi_app
+response = self.handle_exception(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/UFCFighterHub/.pythonlibs/lib/python3.11/site-packages/flask/app.py", line 1473, in wsgi_app
+response = self.full_dispatch_request()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/UFCFighterHub/.pythonlibs/lib/python3.11/site-packages/flask/app.py", line 882, in full_dispatch_request
+rv = self.handle_user_exception(e)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/UFCFighterHub/.pythonlibs/lib/python3.11/site-packages/flask/app.py", line 880, in full_dispatch_request
+rv = self.dispatch_request()
+     ^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/UFCFighterHub/.pythonlibs/lib/python3.11/site-packages/flask/app.py", line 865, in dispatch_request
+return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/UFCFighterHub/main.py", line 171, in divisions
+return render_template('divisions.html', divisions=divisions)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/UFCFighterHub/.pythonlibs/lib/python3.11/site-packages/flask/templating.py", line 150, in render_template
+return _render(app, template, context)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/UFCFighterHub/.pythonlibs/lib/python3.11/site-packages/flask/templating.py", line 127, in _render
+app.update_template_context(context)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/UFCFighterHub/.pythonlibs/lib/python3.11/site-packages/flask/app.py", line 493, in update_template_context
+context.update(self.ensure_sync(func)())
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/UFCFighterHub/.pythonlibs/lib/python3.11/site-packages/flask_login/utils.py", line 405, in _user_context_processor
+return dict(current_user=_get_user())
+                         ^^^^^^^^^^^
+File "/home/runner/UFCFighterHub/.pythonlibs/lib/python3.11/site-packages/flask_login/utils.py", line 370, in _get_user
+current_app.login_manager._load_user()
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/UFCFighterHub/.pythonlibs/lib/python3.11/site-packages/flask_login/login_manager.py", line 364, in _load_user
+user = self._user_callback(user_id)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/runner/UFCFighterHub/main.py", line 94, in load_user
+return User(
+       ^^^^
+NameError: name 'User' is not defined
